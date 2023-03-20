@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sharer</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='send-message.png')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <table>
+        <tr>
+          <form action="{{ url_for('search') }}" method="post">
+            <td colspan="2">
+              <div class="sgrid">
+                <img
+                  style="width: 100%"
+                  style="vertical-align: middle"
+                  src="{{ url_for('static', filename='send-message.png')}}"
+                  alt=""
+                />
+                <input
+                  style="box-sizing: border-box; width: 100%; padding: 1em"
+                  type="text"
+                  name="query"
+                />
+              </div>
+            </td>
+            <!-- <td>
+                        <input type="submit" value="Search">
+                    </td> -->
+          </form>
+        </tr>
+        <tr>
+          <td colspan="2">
+            Index of <a href="/">home</a>/ {% for i in spath %}
+            <a href="/folder?folder={{i}}">{{ i.split('/')[-2] }}</a>/ {% endfor
+            %}
+          </td>
+        </tr>
+        <tr style="background-color: rgb(62, 62, 62); color: white">
+          <th class="innerzip">
+            Name
+            <a
+              class="zip"
+              style="float: right"
+              href="{{ url_for('music_zip') }}"
+            >
+              <img
+                src="{{ url_for('static', filename='icons/music-note.svg')}}"
+                alt="Music"
+                width="22"
+                height="22"
+              />
+            </a>
+          </th>
+          <th id="innerzip">
+            <div class="dtxt">
+              Download
+              <a class="zip" style="float: right" href="{{ url_for('zip') }}">
+                <img
+                  src="{{ url_for('static', filename='icons/download.svg')}}"
+                  alt="Download folder"
+                  width="22"
+                  height="22"
+                />
+              </a>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <a style="text-decoration: none; color: black" href="/">Go Home</a>
+          </td>
+          <td></td>
+        </tr>
+        <!-- <tr>
+                <td>
+                    
+                </td>
+            </tr> -->
+        {% if request.environ['RAW_URI']!='/' %}
+        <tr>
+          <td>
+            <!-- <button onclick="history.back()">Go Back</button> -->
+            <a
+              style="text-decoration: none; color: black"
+              href="{{ url_for('back') }}"
+              >&larr;Go Back</a
+            >
+          </td>
+          <td></td>
+        </tr>
+        {% endif %} {% for key,value in dict_folders.items() %}
+        <tr>
+          <td class="logoname">
+            <a id="name" href="{{ key }}">
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/folder-fill.svg') }}"
+              />
+              <abbr
+                style="text-decoration: none; color: black"
+                title="Path: {{ key.split('=')[-1] }}"
+                >{{ value }}</abbr
+              >
+            </a>
+          </td>
+          <td class="dbox">
+            <a href="{{ key }}" class="download">Open</a>
+          </td>
+        </tr>
+        {% endfor %} {% for key,value in dict_files.items() %}
+
+        <tr>
+          <td class="logoname">
+            <a id="name" href="{{ key }}">
+              {% if value.split('.')[-1] in ["apng", "png", "avif", "jpg",
+              "jpeg", "jfif", "pjpeg", "pjp", "webp", "bmp", "svg", "ico",
+              "cur", "tif", "tiff"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/image-solid.svg') }}"
+                alt="img"
+              />
+
+              {% elif value.split('.')[-1] in ["mp4","mkv"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/video-solid.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["mp3","webm","flac","m4a"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/music-solid.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["zip","7z","rar","gz","tar","xz"]
+              %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/file-zip-fill.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["txt"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/file-text-fill.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["pdf"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/file-pdf-fill.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["iso","img"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/compact-disc-solid.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["ppt","pptx"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/file-ppt-fill.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["doc","docx"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/file-word-fill.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["xls","xlsx"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/file-excel-fill.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["exe","msi"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/windows.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["lnk"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/shortcut.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["gif"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-gif.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["cfg"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/screwdriver-wrench-solid.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["css"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/css3-alt.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["js"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/square-js.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["html"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/html5.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["java","jar"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/java.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["json"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-json.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["py"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/python.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["xml"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-xml.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["jsx"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-jsx.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["php"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/php.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["rb"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-rb.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["sh","bash"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/bash.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["sql"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/database-solid.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["sass"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-sass.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["scss"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-scss.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["tsx"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-tsx.svg') }}"
+                alt=""
+              />
+
+              {% elif value.split('.')[-1] in ["yml"] %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/filetype-yml.svg') }}"
+                alt=""
+              />
+
+              {% else %}
+              <img
+                class="img"
+                src="{{ url_for('static', filename='icons/question-square-fill.svg') }}"
+                alt=""
+              />
+
+              {% endif %}
+              <abbr
+                style="text-decoration: none; color: black; font-weight: 200"
+                title="Path: {{ key.split('=')[-1] }}"
+                >{{ value }}</abbr
+              ></a
+            >
+          </td>
+          <td class="dbox">
+            <a href="{{ key }}" class="download">Download</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <form
+        action="{{ url_for('upload') }}"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <label for="file-upload" class="upload">
+          <img
+            class="img-upload"
+            src="{{ url_for('static', filename='icon-graphics/file.png') }}"
+            alt=""
+          />
+        </label>
+        <input
+          name="file"
+          id="file-upload"
+          onchange="this.form.submit()"
+          type="file"
+        />
+      </form>
+    </div>
+    <script>
+      console.log("success2");
+      function sunken() {
+        document.getElementById("zip").style.background = "#B8C6DB";
+        console.log("success");
+      }
+    </script>
+  </body>
+</html>

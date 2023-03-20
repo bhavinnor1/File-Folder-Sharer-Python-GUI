@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharer</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='send-message.png')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <form action="{{ url_for('search') }}" method="post">
+            <input type="text" name="query">
+            <input type="submit" value="Search">
+        </form>
+        <table>
+            <tr style="background-color: rgb(62, 62, 62); color:white;">
+                <th class="innerzip">Name
+                    <a id="dicobutton" class="zip" style="float:right;" href="{{ url_for('music_zip') }}">
+                        <img src="{{ url_for('static', filename='icons/music-note.svg')}}" alt="Music" width="22"
+                            height="22">
+                    </a>
+                </th>
+                <th id="innerzip">Download
+                    <!-- <a id="dicobutton" class="zip" style="float:right;" href="">
+                            <img src="{{ url_for('static', filename='icons/download.svg')}}" alt="Download folder" width="22"
+                                height="22">
+                        </a> -->
+                </th>
+            </tr>
+            <hr>
+            <tr>
+                <td>
+                    <a href="/">Go Home</a>
+                </td>
+                <td></td>
+            </tr>
+            <!-- <tr>
+                <td>
+                    
+                </td>
+            </tr> -->
+            {% if request.environ['RAW_URI']!='/' %}
+            <tr>
+                <td>
+                    <!-- <button onclick="history.back()">Go Back</button> -->
+                    <a href="{{ url_for('back') }}">&larr;Go Back</a>
+                </td>
+                <td></td>
+            </tr>
+            {% endif %}
+
+            {% for key,value in dict_files.items() %}
+
+
+            <tr>
+                <td>
+                    <a href="{{ key }}"><abbr title="Path: {{ key.split('=')[-1] }}">{{ value }}</abbr></a>
+                </td>
+                <td class="dbox">
+                    <a href="{{ key }}" class="download">Download</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+    <script>
+        console.log('success2')
+        function sunken() {
+            document.getElementById('zip').style.background = '#B8C6DB';
+            console.log('success')
+        }
+    </script>
+</body>
+
+</html>
