@@ -8,10 +8,10 @@ dict_folders={}
 dir=""
 
 def format(file):
-    if os.path.isdir(file):
+    if os.path.isdir(os.path.join(dir,file)):
         # ab_path='/folder?folder='+row
         # print('file: ',str(file).replace('\\','/'),)
-        ab_path='/folder?folder='+(str(file).replace('\\','/'))[1:].replace('\\','/')+"/"
+        ab_path='/folder?folder='+(str(file).replace('\\','/')).replace(dir,"").replace('\\','/')+"/"
         dict_folders[ab_path]=os.path.basename(file)+"/"
     else:
         # ab_path='/download?file='+row
@@ -27,6 +27,7 @@ def thread_format(files,directory):
     # print(directory)
     tc=1
     dir=directory
+    print("format:-",dir)
     s=time()
     # for i in files:
     #     format(i)
